@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Login from './Login';
+import { useAuth } from '../context/AuthProvider';
+import Logout from './Logout';
 
 function Navbar() {
+    const [authUser,setAuthUser]=useAuth();
+    console.log(authUser);
     const [theme,setTheme]=useState(localStorage.getItem('theme')?localStorage.getItem('theme'):"light");
     const [sticky,setSticky]=useState(false);
     const element=document.documentElement;
@@ -45,11 +49,11 @@ function Navbar() {
     }`}>
     <div className="navbar ">
   <div className="navbar-start">
-    <div className="dropdown">
+    <div className="dropdown ">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
       </div>
-      <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+      <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 dark:bg-slate-900 dark:text-white">
         {navItems}
       </ul>
     </div>
@@ -79,11 +83,14 @@ function Navbar() {
   <svg className="swap-on fill-current w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" onClick={()=>setTheme(theme==="dark"?"light":"dark")}><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>
   
 </label>
-  <div >
+   {
+    authUser?<Logout/>:
+    <div >
     <a className="bg-black text-white py-2 px-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer" 
     onClick={()=>{document.getElementById("my_modal_3").showModal()}}>Login</a>
     <Login />
   </div>
+   }
   </div>
 </div>
     </div>
